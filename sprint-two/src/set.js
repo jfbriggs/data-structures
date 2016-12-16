@@ -6,18 +6,18 @@ var Set = function() {
 
 var setPrototype = {};
 
-setPrototype.add = function(item) {
+setPrototype.add = function(item) { // constant
   this._storage[item] = item;
 };
 
-setPrototype.contains = function(item) {
+setPrototype.contains = function(item) { // constant
   if (this._storage[item] === item) {
     return true;
   }
   return false;
 };
 
-setPrototype.remove = function(item) {
+setPrototype.remove = function(item) { // constant
   delete this._storage[item];
 };
 
