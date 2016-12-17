@@ -14,13 +14,13 @@ var Queue = function() {
 var queueMethods = {
 
   enqueue: function(value) {
-    this.storage[(this.count + this.lowest).toString()] = value;
+    this.storage[(this.count + this.lowest)] = value;
     this.count++;
   },
   
   dequeue: function() {
-    var remove = this.storage[(this.lowest).toString()];
-    delete this.storage[(this.lowest).toString()];
+    var remove = this.storage[(this.lowest)];
+    delete this.storage[(this.lowest)];
     this.count--;
     if (this.count > 0) {
       this.lowest++;

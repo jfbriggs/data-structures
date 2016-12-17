@@ -7,13 +7,13 @@ var Stack = function() {
 };
 
 Stack.prototype.push = function(value) {
-  this.storage[(this.count).toString()] = value;
+  this.storage[(this.count)] = value;
   this.count++;
 };
 
 Stack.prototype.pop = function() {
-  var remove = this.storage[(this.count - 1).toString()];
-  delete this.storage[(this.count - 1).toString()];
+  var remove = this.storage[(this.count - 1)];
+  delete this.storage[(this.count - 1)];
   this.count--;
   return remove;
 };

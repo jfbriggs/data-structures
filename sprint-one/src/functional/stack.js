@@ -8,14 +8,14 @@ var Stack = function() {
 
   // Implement the methods below
   someInstance.push = function(value) {
-    storage[size.toString()] = value;
+    storage[size] = value;
     size++;
     
   };
 
   someInstance.pop = function() {
-    var removed = storage[(size - 1).toString()];
-    delete storage[(size - 1).toString()];
+    var removed = storage[(size - 1)];
+    delete storage[(size - 1)];
     size--;
     return removed;
   };
