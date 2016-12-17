@@ -3,6 +3,8 @@
 var HashTable = function() {
   this._limit = 8;
   this._storage = LimitedArray(this._limit);
+  this._size = 0;
+
 };
 
 HashTable.prototype.insert = function(k, v) {  // constant (approaching linear in worst case)
@@ -24,16 +26,10 @@ HashTable.prototype.insert = function(k, v) {  // constant (approaching linear i
     this._storage.set(index, indexPairs);
   }
 
-  var count = 0;
-  this._storage.each(function(index) {
-    if (index !== undefined) {
-      count = count + index.length;
-    }
-  });
+  this._size++;
 
-
-  if (count > (this._limit * 0.75)) {
-    this.expand();
+  if (this._size > (this._limit * 0.75)) {
+    this._resize('expand');
   }
   
 };
@@ -63,41 +59,15 @@ HashTable.prototype.remove = function(k) { // constant (approaching linear in wo
     }
   }
 
-  var count = 0;
-  this._storage.each(function(index) {
-    if (index !== undefined) {
-      count = count + index.length;
-    }
-  });
+  this._size--;
 
-  if (count < this._limit * 0.25) {
-    this.shrink();
+  if (this._size < this._limit * 0.25) {
+    this._resize('shrink');
   }
 
 };
 
-HashTable.prototype.expand = function() { // linear
-  var tempStorage = [];
-  this._storage.each(function(index) {
-    if (index !== undefined) {
-      index.forEach(function(pair) {
-        tempStorage.push(pair);
-      });
-    }
-  });
-
-  this._limit = this._limit * 2;
-  this._storage = LimitedArray(this._limit);
-
-  var table = this;
-
-  tempStorage.forEach(function(pair) {
-    table.insert(pair[0], pair[1]);
-  });
-
-};
-
-HashTable.prototype.shrink = function() {  // linear
+HashTable.prototype._resize = function(changeType) { // linear
 
   var tempStorage = [];
   this._storage.each(function(index) {
@@ -108,17 +78,25 @@ HashTable.prototype.shrink = function() {  // linear
     }
   });
 
-  this._limit = this._limit / 2;
+  if (changeType === 'expand') {
+    this._limit = this._limit * 2;
+  } else {
+    if (this._limit > 8) {
+      this._limit = this._limit / 2;
+    }
+  }
+
   this._storage = LimitedArray(this._limit);
+
+  this._size = 0;
 
   var table = this;
 
   tempStorage.forEach(function(pair) {
     table.insert(pair[0], pair[1]);
   });
+
 };
-
-
 
 /*
  * Complexity: What is the time complexity of the above functions?
