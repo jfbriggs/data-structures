@@ -9,12 +9,11 @@ var LinkedList = function() {
     if (list.head === null) {
       list.head = newNode;
     }
-    if (list.tail === null) {
-      list.tail = newNode;
+    if (list.tail !== null) {
+      list.tail.next = newNode;
     }
-    list.tail.next = newNode;
     list.tail = newNode;
-    list.values[(newNode.value).toString()] = newNode.value;
+    list.values[(newNode.value)] = newNode.value;
 
   };
 
@@ -25,19 +24,19 @@ var LinkedList = function() {
       delete list.head;
       list.head = newHead;
     }
-    delete list.values[currentHead.toString()];
+    delete list.values[currentHead];
     return currentHead;
     
   };
 
   list.contains = function(target) {
-    var flag = false;
+    
     for (var item in list.values) {
       if (+item === target) {
-        flag = true;
+        return true;
       }
     }
-    return flag;
+    return false;
   };
 
   return list;
